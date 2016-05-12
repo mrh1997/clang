@@ -1120,6 +1120,64 @@ CursorKind.MODULE_IMPORT_DECL = CursorKind(600)
 # A type alias template declaration
 CursorKind.TYPE_ALIAS_TEMPLATE_DECL = CursorKind(601)
 
+class OperatorKind(BaseEnumeration):
+    """
+    A OperatorKind describes the kind of operator of a cursor of kind
+    BinaryOperator or UnaryOperator.
+    """
+
+    # The required BaseEnumeration declarations.
+    _kinds = []
+    _name_map = None
+
+OperatorKind.NULL = OperatorKind(0)
+OperatorKind.PTR_MEM_D = OperatorKind(1)
+OperatorKind.PTR_MEM_I = OperatorKind(2)
+OperatorKind.MUL = OperatorKind(3)
+OperatorKind.DIV = OperatorKind(4)
+OperatorKind.REM = OperatorKind(5)
+OperatorKind.ADD = OperatorKind(6)
+OperatorKind.SUB = OperatorKind(7)
+OperatorKind.SHL = OperatorKind(8)
+OperatorKind.SHR = OperatorKind(9)
+OperatorKind.LT = OperatorKind(10)
+OperatorKind.GT = OperatorKind(11)
+OperatorKind.LE = OperatorKind(12)
+OperatorKind.GE = OperatorKind(13)
+OperatorKind.EQ = OperatorKind(14)
+OperatorKind.NE = OperatorKind(15)
+OperatorKind.AND = OperatorKind(16)
+OperatorKind.XOR = OperatorKind(17)
+OperatorKind.OR = OperatorKind(18)
+OperatorKind.LAND = OperatorKind(19)
+OperatorKind.LOR = OperatorKind(20)
+OperatorKind.ASSIGN = OperatorKind(21)
+OperatorKind.MUL_ASSIGN = OperatorKind(22)
+OperatorKind.DIV_ASSIGN = OperatorKind(23)
+OperatorKind.REM_ASSIGN = OperatorKind(24)
+OperatorKind.ADD_ASSIGN = OperatorKind(25)
+OperatorKind.SUB_ASSIGN = OperatorKind(26)
+OperatorKind.SHL_ASSIGN = OperatorKind(27)
+OperatorKind.SHR_ASSIGN = OperatorKind(28)
+OperatorKind.AND_ASSIGN = OperatorKind(29)
+OperatorKind.XOR_ASSIGN = OperatorKind(30)
+OperatorKind.OR_ASSIGN = OperatorKind(31)
+OperatorKind.COMMA = OperatorKind(32)
+OperatorKind.POST_INC = OperatorKind(101)
+OperatorKind.POST_DEC = OperatorKind(102)
+OperatorKind.PRE_INC = OperatorKind(103)
+OperatorKind.PRE_DEC = OperatorKind(104)
+OperatorKind.ADDR_OF = OperatorKind(105)
+OperatorKind.DEREF = OperatorKind(106)
+OperatorKind.PLUS = OperatorKind(107)
+OperatorKind.MINUS = OperatorKind(108)
+OperatorKind.NOT = OperatorKind(109)
+OperatorKind.LNOT = OperatorKind(110)
+OperatorKind.REAL = OperatorKind(111)
+OperatorKind.IMAG = OperatorKind(112)
+OperatorKind.EXTENSION = OperatorKind(113)
+OperatorKind.COAWAIT = OperatorKind(114)
+
 ### Template Argument Kinds ###
 class TemplateArgumentKind(BaseEnumeration):
     """
@@ -1223,6 +1281,16 @@ class Cursor(Structure):
     def kind(self):
         """Return the kind of this cursor."""
         return CursorKind.from_id(self._kind_id)
+
+    @property
+    def operator_kind(self):
+        """Return the kind of the operator.
+
+        If cursor is of kind CursorKind.BINARY_OPERATOR or
+        CursorKind.UNARY_OPERATOR the exact kind of operation can be retrieved
+        by this property, which returns a OperatorKind enum."""
+        operator_kind_id = conf.lib.clang_getCursorOperatorKind(self)
+        return OperatorKind.from_id(operator_kind_id)
 
     @property
     def spelling(self):
@@ -3051,6 +3119,10 @@ functionList = [
   ("clang_getCursorLocation",
    [Cursor],
    SourceLocation),
+
+  ("clang_getCursorOperatorKind",
+   [Cursor],
+   c_uint),
 
   ("clang_getCursorReferenced",
    [Cursor],

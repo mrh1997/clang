@@ -5215,6 +5215,117 @@ CXCursor clang_getCursorReferenced(CXCursor C) {
   }
 }
 
+enum CXOperatorKind clang_getCursorOperatorKind(CXCursor C) {
+  if (C.kind == CXCursor_BinaryOperator) {
+    const BinaryOperator * BinOp =
+      static_cast<const BinaryOperator *>(getCursorExpr(C));
+
+    switch (BinOp->getOpcode()) {
+    case BO_PtrMemD:
+      return CXOperatorKind_PtrMemD;
+    case BO_PtrMemI:
+      return CXOperatorKind_PtrMemI;
+    case BO_Mul:
+      return CXOperatorKind_Mul;
+    case BO_Div:
+      return CXOperatorKind_Div;
+    case BO_Rem:
+      return CXOperatorKind_Rem;
+    case BO_Add:
+      return CXOperatorKind_Add;
+    case BO_Sub:
+      return CXOperatorKind_Sub;
+    case BO_Shl:
+      return CXOperatorKind_Shl;
+    case BO_Shr:
+      return CXOperatorKind_Shr;
+    case BO_LT:
+      return CXOperatorKind_LT;
+    case BO_GT:
+      return CXOperatorKind_GT;
+    case BO_LE:
+      return CXOperatorKind_LE;
+    case BO_GE:
+      return CXOperatorKind_GE;
+    case BO_EQ:
+      return CXOperatorKind_EQ;
+    case BO_NE:
+      return CXOperatorKind_NE;
+    case BO_And:
+      return CXOperatorKind_And;
+    case BO_Xor:
+      return CXOperatorKind_Xor;
+    case BO_Or:
+      return CXOperatorKind_Or;
+    case BO_LAnd:
+      return CXOperatorKind_LAnd;
+    case BO_LOr:
+      return CXOperatorKind_LOr;
+    case BO_Assign:
+      return CXOperatorKind_Assign;
+    case BO_MulAssign:
+      return CXOperatorKind_MulAssign;
+    case BO_DivAssign:
+      return CXOperatorKind_DivAssign;
+    case BO_RemAssign:
+      return CXOperatorKind_RemAssign;
+    case BO_AddAssign:
+      return CXOperatorKind_AddAssign;
+    case BO_SubAssign:
+      return CXOperatorKind_SubAssign;
+    case BO_ShlAssign:
+      return CXOperatorKind_ShlAssign;
+    case BO_ShrAssign:
+      return CXOperatorKind_ShrAssign;
+    case BO_AndAssign:
+      return CXOperatorKind_AndAssign;
+    case BO_XorAssign:
+      return CXOperatorKind_XorAssign;
+    case BO_OrAssign:
+      return CXOperatorKind_OrAssign;
+    case BO_Comma:
+      return CXOperatorKind_Comma;
+    }
+  }
+  else if (C.kind == CXCursor_UnaryOperator) {
+    const UnaryOperator * UnOp =
+      static_cast<const UnaryOperator *>(getCursorExpr(C));
+
+    switch (UnOp->getOpcode()) {
+    case UO_PostInc:
+      return CXOperatorKind_PostInc;
+    case UO_PostDec:
+      return CXOperatorKind_PostDec;
+    case UO_PreInc:
+      return CXOperatorKind_PreInc;
+    case UO_PreDec:
+      return CXOperatorKind_PreDec;
+    case UO_AddrOf:
+      return CXOperatorKind_AddrOf;
+    case UO_Deref:
+      return CXOperatorKind_Deref;
+    case UO_Plus:
+      return CXOperatorKind_Plus;
+    case UO_Minus:
+      return CXOperatorKind_Minus;
+    case UO_Not:
+      return CXOperatorKind_Not;
+    case UO_LNot:
+      return CXOperatorKind_LNot;
+    case UO_Real:
+      return CXOperatorKind_Real;
+    case UO_Imag:
+      return CXOperatorKind_Imag;
+    case UO_Extension:
+      return CXOperatorKind_Extension;
+    case UO_Coawait:
+      return CXOperatorKind_Coawait;
+    }
+  }
+
+  return CXOperatorKind_Null;
+}
+
 CXCursor clang_getCursorDefinition(CXCursor C) {
   if (clang_isInvalid(C.kind))
     return clang_getNullCursor();

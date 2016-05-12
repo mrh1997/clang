@@ -2455,6 +2455,74 @@ CINDEX_LINKAGE unsigned clang_isPreprocessing(enum CXCursorKind);
 CINDEX_LINKAGE unsigned clang_isUnexposed(enum CXCursorKind);
 
 /**
+ * \brief Describes the kind of entity that a cursor refers to.
+ */
+enum CXOperatorKind {
+  /* Declarations */
+  /**
+   * \brief This cursor is not of kind CXCursorKind_BinaryOperator or
+   * CXCursorKind_UnaryOperator.
+   */
+  CXOperatorKind_Null = 0,
+
+  CXOperatorKind_PtrMemD = 1,
+  CXOperatorKind_PtrMemI = 2,
+  CXOperatorKind_Mul = 3,
+  CXOperatorKind_Div = 4,
+  CXOperatorKind_Rem = 5,
+  CXOperatorKind_Add = 6,
+  CXOperatorKind_Sub = 7,
+  CXOperatorKind_Shl = 8,
+  CXOperatorKind_Shr = 9,
+  CXOperatorKind_LT = 10,
+  CXOperatorKind_GT = 11,
+  CXOperatorKind_LE = 12,
+  CXOperatorKind_GE = 13,
+  CXOperatorKind_EQ = 14,
+  CXOperatorKind_NE = 15,
+  CXOperatorKind_And = 16,
+  CXOperatorKind_Xor = 17,
+  CXOperatorKind_Or = 18,
+  CXOperatorKind_LAnd = 19,
+  CXOperatorKind_LOr = 20,
+  CXOperatorKind_Assign = 21,
+  CXOperatorKind_MulAssign = 22,
+  CXOperatorKind_DivAssign = 23,
+  CXOperatorKind_RemAssign = 24,
+  CXOperatorKind_AddAssign = 25,
+  CXOperatorKind_SubAssign = 26,
+  CXOperatorKind_ShlAssign = 27,
+  CXOperatorKind_ShrAssign = 28,
+  CXOperatorKind_AndAssign = 29,
+  CXOperatorKind_XorAssign = 30,
+  CXOperatorKind_OrAssign = 31,
+  CXOperatorKind_Comma = 32,
+  
+  CXOperatorKind_PostInc = 101,
+  CXOperatorKind_PostDec = 102,
+  CXOperatorKind_PreInc = 103,
+  CXOperatorKind_PreDec = 104,
+  CXOperatorKind_AddrOf = 105,
+  CXOperatorKind_Deref = 106,
+  CXOperatorKind_Plus = 107,
+  CXOperatorKind_Minus = 108,
+  CXOperatorKind_Not = 109,
+  CXOperatorKind_LNot = 110,
+  CXOperatorKind_Real = 111,
+  CXOperatorKind_Imag = 112,
+  CXOperatorKind_Extension = 113,
+  CXOperatorKind_Coawait = 114,
+} ;
+
+/**
+ * \brief Retrieve Operation kind of the given cursor.
+ *
+ * If cursor is of kind BinaryOperation, this function returns the exact
+ * kind of the binary operation.
+ */
+CINDEX_LINKAGE enum CXOperatorKind clang_getCursorOperatorKind(CXCursor);
+
+/**
  * \brief Describe the linkage of the entity referred to by a cursor.
  */
 enum CXLinkageKind {
