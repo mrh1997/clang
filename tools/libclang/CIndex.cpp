@@ -5216,7 +5216,8 @@ CXCursor clang_getCursorReferenced(CXCursor C) {
 }
 
 enum CXOperatorKind clang_getCursorOperatorKind(CXCursor C) {
-  if (C.kind == CXCursor_BinaryOperator) {
+  if (C.kind == CXCursor_BinaryOperator || 
+	  C.kind == CXCursor_CompoundAssignOperator) {
     const BinaryOperator * BinOp =
       static_cast<const BinaryOperator *>(getCursorExpr(C));
 
